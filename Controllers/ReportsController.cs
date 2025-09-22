@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BLEPFinancialSystem.Controllers
 {
-    [Authorize(Roles = "WorldBank,ProjectDirector,FinanceOfficer")]
+    //[Authorize(Roles = "WorldBank,ProjectDirector,FinanceOfficer")]
     public class ReportsController : Controller
     {
         private readonly IReportingService _reportingService;

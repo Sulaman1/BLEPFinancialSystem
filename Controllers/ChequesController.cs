@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BLEPFinancialSystem.Controllers
 {
-    [Authorize(Roles = "FinanceOfficer,ProjectDirector")]
+    //[Authorize(Roles = "FinanceOfficer,ProjectDirector")]
     public class ChequesController : Controller
     {
         private readonly IChequeService _chequeService;

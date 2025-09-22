@@ -1,0 +1,149 @@
+﻿@model BLEPFinancialSystem.Models.ReportParameters
+@{
+    ViewData["Title"] = "Financial Summary Report";
+    var report = ViewBag.Report as BLEPFinancialSystem.Models.FinancialSummaryReport;
+}
+
+<h1>Financial Summary Report</h1>
+
+<form asp-action="FinancialSummary" method="post" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
+                <label asp-for="ReportFormat" class="control-label"></label>
+                <select asp-for="ReportFormat" class="form-control">
+                    <option value="HTML">Web View</option>
+                    <option value="PDF">PDF Export</option>
+                    <option value="Excel">Excel Export</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group" style="margin-top: 32px;">
+                <input type="submit" value="Generate Report" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@if (report != null)
+{
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Financial Summary</h5>
+            <p class="card-subtitle">Period: @report.StartDate.ToString("d") to @report.EndDate.ToString("d")</p>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="card text-white bg-primary mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Total Budget</h6>
+                            <p class="card-text h4">@report.TotalBudget.ToString("C")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-info mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Total Disbursed</h6>
+                            <p class="card-text h4">@report.TotalDisbursed.ToString("C")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-success mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Total Utilized</h6>
+                            <p class="card-text h4">@report.TotalUtilized.ToString("C")</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card text-white bg-warning mb-3">
+                        <div class="card-body">
+                            <h6 class="card-title">Utilization Rate</h6>
+                            <p class="card-text h4">@report.UtilizationRate.ToString("F2")%</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Project Statistics</h6>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Total Projects
+                                    <span class="badge badge-primary badge-pill">@report.TotalProjects</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Active Projects
+                                    <span class="badge badge-success badge-pill">@report.ActiveProjects</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    Completed Projects
+                                    <span class="badge badge-info badge-pill">@report.CompletedProjects</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="card-title">Budget Category Utilization</h6>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Category</th>
+                                            <th>Allocated</th>
+                                            <th>Utilized</th>
+                                            <th>Utilization Rate</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var category in report.CategorySummaries)
+                                        {
+                                            <tr>
+                                                <td>@category.CategoryName</td>
+                                                <td>@category.AllocatedAmount.ToString("C")</td>
+                                                <td>@category.UtilizedAmount.ToString("C")</td>
+                                                <td>
+                                                    <div class="progress" style="height: 20px;">
+                                                        <div class="progress-bar @(category.UtilizationRate > 75 ? "bg-success" : category.UtilizationRate > 50 ? "bg-info" : "bg-warning")"
+                                                             role="progressbar" style="width: @(category.UtilizationRate > 100 ? 100 : category.UtilizationRate)%"
+                                                             aria-valuenow="@category.UtilizationRate" aria-valuemin="0" aria-valuemax="100">
+                                                            @category.UtilizationRate.ToString("F1")%
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Financial Reports</h1>
+        <p>Generate and export various financial reports for the BLEP project.</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Financial Summary</h5>
+                <p class="card-text">Overview of budget, disbursements, and utilization across all projects.</p>
+                <a asp-action="FinancialSummary" class="btn btn-primary">Generate Report</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Disbursements Report</h5>
+                <p class="card-text">Detailed report of all fund disbursements with filtering options.</p>
+                <a asp-action="Disbursements" class="btn btn-primary">Generate Report</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Beneficiary Payments</h5>
+                <p class="card-text">Report on all payments made to beneficiaries with categorization.</p>
+                <a asp-action="BeneficiaryPayments" class="btn btn-primary">Generate Report</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Audit Logs</h5>
+                <p class="card-text">System activity audit trail for compliance and monitoring purposes.</p>
+                <a asp-action="AuditLogs" class="btn btn-primary">Generate Report</a>
+            </div>
+        </div>
+    </div>
+</div>

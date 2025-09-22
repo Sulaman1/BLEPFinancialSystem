@@ -1,0 +1,72 @@
+﻿@model IEnumerable<BLEPFinancialSystem.Models.Cheque>
+
+@{
+    ViewData["Title"] = "Cheque Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Cheque Management</h1>
+    <div>
+        <a asp-action="Create" class="btn btn-primary">Create New Cheque</a>
+        <a asp-action="Templates" class="btn btn-outline-secondary">Manage Templates</a>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Cheque #</th>
+                        <th>Payee</th>
+                        <th>Amount</th>
+                        <th>Bank Account</th>
+                        <th>Status</th>
+                        <th>Issue Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.ChequeNumber</td>
+                            <td>@item.PayeeName</td>
+                            <td>@item.Amount.ToString("C")</td>
+                            <td>@item.BankAccount?.BankName (@item.BankAccount?.AccountNumber)</td>
+                            <td>
+                                <span class="badge @GetStatusBadgeClass(item.Status)">
+                                    @item.Status
+                                </span>
+                            </td>
+                            <td>@item.IssueDate.ToString("d")</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                                <a asp-action="Print" asp-route-id="@item.Id" class="btn btn-sm btn-primary" target="_blank">Print</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetStatusBadgeClass(ChequeStatus status)
+    {
+        return status switch
+        {
+            ChequeStatus.Draft => "badge-secondary",
+            ChequeStatus.Approved => "badge-info",
+            ChequeStatus.Printed => "badge-primary",
+            ChequeStatus.Issued => "badge-warning",
+            ChequeStatus.Cleared => "badge-success",
+            ChequeStatus.Cancelled => "badge-danger",
+            ChequeStatus.Stopped => "badge-dark",
+            _ => "badge-secondary"
+        };
+    }
+}

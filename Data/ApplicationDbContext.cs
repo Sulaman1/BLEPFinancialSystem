@@ -18,6 +18,9 @@ namespace BLEPFinancialSystem.Data
         public DbSet<Payment> Payments { get; set; }
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<Cheque> Cheques { get; set; }
+        public DbSet<ChequeTemplate> ChequeTemplates { get; set; }
+        public DbSet<BankAccount> BankAccounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

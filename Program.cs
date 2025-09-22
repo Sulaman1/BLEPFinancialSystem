@@ -7,6 +7,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IReportingService, ReportingService>();
 
+// Add cheque service
+builder.Services.AddScoped<IChequeService, ChequeService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

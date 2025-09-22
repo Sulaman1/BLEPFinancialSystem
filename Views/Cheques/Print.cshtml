@@ -1,0 +1,164 @@
+﻿@model BLEPFinancialSystem.Models.ChequePrintModel
+@{
+    ViewData["Title"] = "Print Cheque";
+    Layout = null; // No layout for printing
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Print Cheque - @Model.Cheque.ChequeNumber</title>
+    <style>
+        body {
+            font-family: @Model.Template.FontFamily;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .cheque-container {
+            width: @(Model.Template.Width)in;
+            height: @(Model.Template.Height)in;
+            margin: 0.5in auto;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            page-break-inside: avoid;
+        }
+
+        .cheque-field {
+            position: absolute;
+            font-size: @(Model.Template.FontSize)px;
+        }
+
+        .payee-name {
+            top: @(Model.Template.PayeeNameY)in;
+            left: @(Model.Template.PayeeNameX)in;
+            font-weight: bold;
+        }
+
+        .amount {
+            top: @(Model.Template.AmountY)in;
+            left: @(Model.Template.AmountX)in;
+            font-weight: bold;
+        }
+
+        .amount-words {
+            top: @(Model.Template.AmountWordsY)in;
+            left: @(Model.Template.AmountWordsX)in;
+            width: 4in;
+            text-transform: uppercase;
+        }
+
+        .date {
+            top: @(Model.Template.DateY)in;
+            left: @(Model.Template.DateX)in;
+        }
+
+        .signature {
+            top: @(Model.Template.SignatureY)in;
+            left: @(Model.Template.SignatureX)in;
+            border-top: 1px solid #000;
+            width: 2in;
+            text-align: center;
+        }
+
+        .bank-info {
+            position: absolute;
+            top: 0.2in;
+            right: 0.2in;
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .cheque-number {
+            position: absolute;
+            top: 0.2in;
+            left: 0.2in;
+            font-weight: bold;
+        }
+
+        .watermark {
+            position: absolute;
+            opacity: 0.1;
+            font-size: 80px;
+            transform: rotate(-45deg);
+            top: 40%;
+            left: 20%;
+            z-index: -1;
+        }
+
+        @@media print {
+            body {
+                background-color: white;
+            }
+
+            .cheque-container {
+                margin: 0;
+                box-shadow: none;
+                border: none;
+            }
+
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print" style="padding: 20px; text-align: center;">
+        <button onclick="window.print()" class="btn btn-primary">Print Cheque</button>
+        <a href="@Url.Action("Details", new { id = Model.Cheque.Id })" class="btn btn-secondary">Back to Details</a>
+        <form asp-action="MarkPrinted" method="post" style="display: inline;">
+            <input type="hidden" name="id" value="@Model.Cheque.Id" />
+            <button type="submit" class="btn btn-success">Mark as Printed</button>
+        </form>
+    </div>
+
+    <div class="cheque-container">
+        <div class="watermark">@Model.BankAccount.BankName</div>
+
+        <div class="cheque-number">#@Model.Cheque.ChequeNumber</div>
+
+        <div class="bank-info">
+            <div>@Model.BankAccount.BankName</div>
+            <div>@Model.BankAccount.BranchCode</div>
+            <div>@Model.BankAccount.AccountNumber</div>
+        </div>
+
+        <div class="cheque-field date">@Model.CurrentDate</div>
+
+        <div class="cheque-field payee-name">@Model.Cheque.PayeeName</div>
+
+        <div class="cheque-field amount">@Model.Cheque.Amount.ToString("C")</div>
+
+        <div class="cheque-field amount-words">@Model.Cheque.AmountInWords</div>
+
+        <div class="cheque-field signature">Authorized Signature</div>
+
+        @* @if (!string.IsNullOrEmpty(Model.Cheque.Memo))
+        {
+            <div class="cheque-field" style="top: @(Model.Template.SignatureY + 0.3)in; left: @(Model.Template.SignatureX)in; font-size: 10px;">
+                Memo: @Model.Cheque.Memo
+            </div>
+        } *@
+        @if (!string.IsNullOrEmpty(Model.Cheque.Memo))
+        {
+            <div class="cheque-field" style="top:@(Model.Template.SignatureY + 0.3m)in; left:@(Model.Template.SignatureX)in; font-size:10px;">
+                Memo: @Model.Cheque.Memo
+            </div>
+        }
+    </div>
+
+    <script>
+        window.onload = function() {
+            // Auto-print if requested
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('autoprint') === 'true') {
+                window.print();
+            }
+        };
+    </script>
+</body>
+</html>

@@ -1,2 +1,4 @@
-﻿# Visual Studio workspace files
+﻿# Visual Studio
 .vs/
+bin/
+obj/

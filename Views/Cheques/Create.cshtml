@@ -1,0 +1,124 @@
+﻿@model BLEPFinancialSystem.Models.Cheque
+@{
+    ViewData["Title"] = "Create New Cheque";
+}
+
+<h1>Create New Cheque</h1>
+
+<form asp-action="Create" id="chequeForm">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Cheque Details</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="BankAccountId" class="control-label"></label>
+                        <select asp-for="BankAccountId" class="form-control" asp-items="ViewBag.BankAccounts">
+                            <option value="">-- Select Bank Account --</option>
+                        </select>
+                        <span asp-validation-for="BankAccountId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PayeeName" class="control-label"></label>
+                        <input asp-for="PayeeName" class="form-control" />
+                        <span asp-validation-for="PayeeName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Amount" class="control-label"></label>
+                        <input asp-for="Amount" class="form-control" id="amountInput" />
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="AmountInWords" class="control-label"></label>
+                        <textarea asp-for="AmountInWords" class="form-control" rows="2" id="amountWordsTextarea"></textarea>
+                        <span asp-validation-for="AmountInWords" class="text-danger"></span>
+                        <button type="button" class="btn btn-sm btn-outline-secondary mt-1" id="convertAmountBtn">
+                            Convert to Words
+                        </button>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="IssueDate" class="control-label"></label>
+                        <input asp-for="IssueDate" class="form-control" type="date" />
+                        <span asp-validation-for="IssueDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Memo" class="control-label"></label>
+                        <input asp-for="Memo" class="form-control" />
+                        <span asp-validation-for="Memo" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Template & Payment</h5>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="TemplateId" class="control-label"></label>
+                        <select asp-for="TemplateId" class="form-control" asp-items="ViewBag.Templates">
+                            <option value="">-- Select Template --</option>
+                        </select>
+                        <span asp-validation-for="TemplateId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="PaymentId" class="control-label"></label>
+                        <select asp-for="PaymentId" class="form-control" asp-items="ViewBag.Payments">
+                            <option value="">-- Link to Payment (Optional) --</option>
+                        </select>
+                        <span asp-validation-for="PaymentId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ChequeNumber" class="control-label"></label>
+                        <input asp-for="ChequeNumber" class="form-control" />
+                        <span asp-validation-for="ChequeNumber" class="text-danger"></span>
+                        <small class="form-text text-muted">Leave blank to auto-generate</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<ChequeStatus>()"></select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Create Cheque</button>
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            $('#convertAmountBtn').click(function() {
+                var amount = $('#amountInput').val();
+                if (amount && !isNaN(amount)) {
+                    $.post('@Url.Action("ConvertAmountToWords", "Cheques")', { amount: amount })
+                        .done(function(data) {
+                            $('#amountWordsTextarea').val(data.amountInWords);
+                        })
+                        .fail(function() {
+                            alert('Error converting amount to words');
+                        });
+                }
+            });
+        });
+    </script>
+}

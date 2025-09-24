@@ -1,0 +1,61 @@
+﻿@model BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal.WithdrawalApplication
+
+@{
+    ViewData["Title"] = "Edit Withdrawal Application";
+}
+
+<h1>Edit Withdrawal Application</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <input type="hidden" asp-for="Id" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="ApplicationNo" class="control-label"></label>
+                        <input asp-for="ApplicationNo" class="form-control" />
+                        <span asp-validation-for="ApplicationNo" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ApplicationDate" class="control-label"></label>
+                        <input asp-for="ApplicationDate" type="date" class="form-control" />
+                        <span asp-validation-for="ApplicationDate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="AmountRequested" class="control-label"></label>
+                        <input asp-for="AmountRequested" class="form-control" />
+                        <span asp-validation-for="AmountRequested" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Purpose" class="control-label"></label>
+                        <textarea asp-for="Purpose" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Purpose" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Status" class="control-label"></label>
+                        <select asp-for="Status" class="form-control" asp-items="Html.GetEnumSelectList<WBApplicationStatus>()"></select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

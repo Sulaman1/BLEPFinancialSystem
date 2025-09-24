@@ -1,0 +1,93 @@
+﻿@model BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal.WithdrawalApplication
+
+@{
+    ViewData["Title"] = "Withdrawal Application Details";
+}
+
+<h1>Withdrawal Application Details</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Application Information</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Application No:</dt>
+                    <dd class="col-sm-8">@Model.ApplicationNo</dd>
+
+                    <dt class="col-sm-4">Application Date:</dt>
+                    <dd class="col-sm-8">@Model.ApplicationDate.ToString("d")</dd>
+
+                    <dt class="col-sm-4">Amount Requested:</dt>
+                    <dd class="col-sm-8">@Model.AmountRequested.ToString("C")</dd>
+
+                    <dt class="col-sm-4">Purpose:</dt>
+                    <dd class="col-sm-8">@Model.Purpose</dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge @GetStatusBadge(Model.Status)">@Model.Status</span>
+                    </dd>
+                </dl>
+
+                <div class="mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title">Supporting Documents</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Documents.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Document Type</th>
+                                    <th>Upload Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var document in Model.Documents)
+                                {
+                                    <tr>
+                                        <td>@document.DocumentType</td>
+                                        <td>@document.UploadDate.ToString("d")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No supporting documents uploaded.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadge(WBApplicationStatus status)
+    {
+        return status switch
+        {
+            WBApplicationStatus.Draft => "badge-secondary",
+            WBApplicationStatus.Submitted => "badge-info",
+            WBApplicationStatus.UnderReview => "badge-warning",
+            WBApplicationStatus.Approved => "badge-success",
+            WBApplicationStatus.Rejected => "badge-danger",
+            WBApplicationStatus.Paid => "badge-dark",
+            _ => "badge-secondary"
+        };
+    }
+}

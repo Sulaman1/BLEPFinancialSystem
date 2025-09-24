@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BLEPFinancialSystem.Models.CoreFinancial.Budget.Budget>
+
+@{
+    ViewData["Title"] = "Budget Management";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Budget Management</h1>
+    <a asp-action="Create" class="btn btn-primary">Create New Budget</a>
+</div>
+
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Project</th>
+                        <th>Fiscal Year</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Created Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Project?.Name</td>
+                            <td>@item.FiscalYear</td>
+                            <td>@item.TotalAmount.ToString("C")</td>
+                            <td>
+                                <span class="badge @GetStatusBadge(item.Status)">@item.Status</span>
+                            </td>
+                            <td>@item.CreatedDate.ToString("d")</td>
+                            <td>
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Details</a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadge(BudgetStatus status)
+    {
+        return status switch
+        {
+            BudgetStatus.Draft => "badge-secondary",
+            BudgetStatus.Submitted => "badge-info",
+            BudgetStatus.Approved => "badge-success",
+            BudgetStatus.Revised => "badge-warning",
+            BudgetStatus.Closed => "badge-dark",
+            _ => "badge-secondary"
+        };
+    }
+}

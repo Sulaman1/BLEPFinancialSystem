@@ -1,10 +1,29 @@
-﻿namespace BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal
 {
     public class SupportingDocument
     {
+        [Key]
         public int Id { get; set; }
-        public string DocumentType { get; set; } // Invoice, Receipt, etc.
+
+        [Required]
+        public int WithdrawalApplicationId { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        public string DocumentType { get; set; }
+
+        [Required]
         public string FilePath { get; set; }
-        public DateTime UploadDate { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime UploadDate { get; set; } = DateTime.Now;
+
+        // Navigation property
+        [ForeignKey("WithdrawalApplicationId")]
+        public virtual WithdrawalApplication WithdrawalApplication { get; set; }
     }
+
 }

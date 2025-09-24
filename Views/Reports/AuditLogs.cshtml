@@ -1,0 +1,62 @@
+﻿@model BLEPFinancialSystem.Models.ReportParameters
+@{
+    ViewData["Title"] = "Audit Logs Report";
+    var report = ViewBag.Report as BLEPFinancialSystem.Models.AuditReport;
+}
+
+<h1>Audit Logs</h1>
+
+<form asp-action="AuditLogs" method="post" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="StartDate"></label>
+            <input asp-for="StartDate" class="form-control" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="EndDate"></label>
+            <input asp-for="EndDate" class="form-control" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="ReportFormat"></label>
+            <select asp-for="ReportFormat" class="form-control">
+                <option value="HTML">Web View</option>
+                <option value="PDF">PDF Export</option>
+                <option value="Excel">Excel Export</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <input type="submit" value="Generate Report" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+@if (report != null)
+{
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>User Id</th>
+                    <th>Action</th>
+                    <th>Timestamp</th>
+                    <th>IP Address</th>
+                    <th>Entity</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var log in report.Logs)
+                {
+                    <tr>
+                        <td>@log.UserId</td>
+                        <td>@log.Action</td>
+                        <td>@log.Timestamp.ToString("g")</td>
+                        <td>@log.IpAddress</td>
+                        <td>@log.Entity</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

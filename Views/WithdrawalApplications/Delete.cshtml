@@ -1,0 +1,38 @@
+﻿@model BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal.WithdrawalApplication
+
+@{
+    ViewData["Title"] = "Delete Withdrawal Application";
+}
+
+<h1>Delete Withdrawal Application</h1>
+
+<h3>Are you sure you want to delete this withdrawal application?</h3>
+
+<div class="card">
+    <div class="card-body">
+        <h4>Application Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">Application No:</dt>
+            <dd class="col-sm-8">@Model.ApplicationNo</dd>
+
+            <dt class="col-sm-4">Application Date:</dt>
+            <dd class="col-sm-8">@Model.ApplicationDate.ToString("d")</dd>
+
+            <dt class="col-sm-4">Amount Requested:</dt>
+            <dd class="col-sm-8">@Model.AmountRequested.ToString("C")</dd>
+
+            <dt class="col-sm-4">Purpose:</dt>
+            <dd class="col-sm-8">@Model.Purpose</dd>
+
+            <dt class="col-sm-4">Status:</dt>
+            <dd class="col-sm-8">@Model.Status</dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

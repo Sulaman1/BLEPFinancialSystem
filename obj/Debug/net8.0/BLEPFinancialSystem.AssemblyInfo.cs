@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("BLEPFinancialSystem")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ca84908b11054afc68479bec9f50530466299da9")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+151ed58555de487b83ad8c489d280012b1a7e66f")]
 [assembly: System.Reflection.AssemblyProductAttribute("BLEPFinancialSystem")]
 [assembly: System.Reflection.AssemblyTitleAttribute("BLEPFinancialSystem")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

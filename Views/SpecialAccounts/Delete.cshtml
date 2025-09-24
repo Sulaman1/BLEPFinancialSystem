@@ -1,0 +1,35 @@
+﻿@model BLEPFinancialSystem.Models.WBSpecificModules.SpecialAccount.SpecialAccount
+
+@{
+    ViewData["Title"] = "Delete Special Account";
+}
+
+<h1>Delete Special Account</h1>
+
+<h3>Are you sure you want to delete this special account?</h3>
+
+<div class="card">
+    <div class="card-body">
+        <h4>Account Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-4">Account Number:</dt>
+            <dd class="col-sm-8">@Model.AccountNumber</dd>
+
+            <dt class="col-sm-4">Bank Name:</dt>
+            <dd class="col-sm-8">@Model.BankName</dd>
+
+            <dt class="col-sm-4">Current Balance:</dt>
+            <dd class="col-sm-8">@Model.CurrentBalance.ToString("C")</dd>
+
+            <dt class="col-sm-4">Reconciliation Balance:</dt>
+            <dd class="col-sm-8">@Model.ReconciliationBalance.ToString("C")</dd>
+        </dl>
+
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

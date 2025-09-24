@@ -1,0 +1,75 @@
+﻿@model BLEPFinancialSystem.Models.ReportParameters
+@{
+    ViewData["Title"] = "Disbursements Report";
+    var report = ViewBag.Report as BLEPFinancialSystem.Models.DisbursementReport;
+}
+
+<h1>Disbursements Report</h1>
+
+<form asp-action="Disbursements" method="post" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label asp-for="StartDate" class="control-label"></label>
+            <input asp-for="StartDate" class="form-control" />
+            <span asp-validation-for="StartDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="EndDate" class="control-label"></label>
+            <input asp-for="EndDate" class="form-control" />
+            <span asp-validation-for="EndDate" class="text-danger"></span>
+        </div>
+        <div class="col-md-3">
+            <label asp-for="ReportFormat" class="control-label"></label>
+            <select asp-for="ReportFormat" class="form-control">
+                <option value="HTML">Web View</option>
+                <option value="PDF">PDF Export</option>
+                <option value="Excel">Excel Export</option>
+            </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+            <input type="submit" value="Generate Report" class="btn btn-primary" />
+        </div>
+    </div>
+</form>
+
+@if (report != null)
+{
+    <div class="card">
+        <div class="card-header">
+            Period: @report.StartDate:d – @report.EndDate:d
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm">
+                    <thead>
+                        <tr>
+                            <th>Voucher #</th>
+                            <th>Date</th>
+                            <th>Beneficiary</th>
+                            <th>Amount</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var d in report.Disbursements)
+                        {
+                            <tr>
+                                <td>@d.ReferenceNumber</td>
+                                <td>@d.DisbursementDate.ToShortDateString()</td>
+                                <td>@d.ProjectName</td>
+                                <td>@d.Amount.ToString("C")</td>
+                                <td>@d.Purpose</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr class="font-weight-bold">
+                            <td colspan="3" class="text-right">Total</td>
+                            <td colspan="2">@report.Disbursements.Sum(x => x.Amount).ToString("C")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+}

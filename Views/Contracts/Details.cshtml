@@ -1,0 +1,94 @@
+﻿@model BLEPFinancialSystem.Models.CoreFinancial.Contract.Contract
+
+@{
+    ViewData["Title"] = "Contract Details";
+}
+
+<h1>Contract Details</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Contract Information</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Contract No:</dt>
+                    <dd class="col-sm-8">@Model.ContractNo</dd>
+
+                    <dt class="col-sm-4">Contractor:</dt>
+                    <dd class="col-sm-8">@Model.Contractor</dd>
+
+                    <dt class="col-sm-4">Description:</dt>
+                    <dd class="col-sm-8">@Model.Description</dd>
+
+                    <dt class="col-sm-4">Contract Amount:</dt>
+                    <dd class="col-sm-8">@Model.ContractAmount.ToString("C")</dd>
+
+                    <dt class="col-sm-4">Start Date:</dt>
+                    <dd class="col-sm-8">@Model.StartDate.ToString("d")</dd>
+
+                    <dt class="col-sm-4">End Date:</dt>
+                    <dd class="col-sm-8">@Model.EndDate.ToString("d")</dd>
+
+                    <dt class="col-sm-4">Duration:</dt>
+                    <dd class="col-sm-8">@((Model.EndDate - Model.StartDate).Days) days</dd>
+                </dl>
+
+                <div class="mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Milestones Section -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title">Contract Milestones</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Milestones.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var milestone in Model.Milestones)
+                                {
+                                    <tr>
+                                        <td>@milestone.Description</td>
+                                        <td>@milestone.Amount.ToString("C")</td>
+                                        <td>@milestone.DueDate.ToString("d")</td>
+                                        <td>
+                                            @if (milestone.IsCompleted)
+                                            {
+                                                <span class="badge badge-success">Completed</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge badge-warning">Pending</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No milestones defined for this contract.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

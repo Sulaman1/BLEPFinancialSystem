@@ -373,6 +373,261 @@ namespace BLEPFinancialSystem.Migrations
                     b.ToTable("ChequeTemplates");
                 });
 
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Budget.Budget", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("FiscalYear")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.ToTable("Budgets");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Budget.BudgetLineItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("ActualExpenditure")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ApprovedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("AvailableBalance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("BudgetId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("Commitments")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("RevisedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BudgetId");
+
+                    b.ToTable("BudgetLineItems");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Contract.Contract", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("ContractAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("ContractNo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Contractor")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Contracts");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Contract.ContractMilestone", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("CompletedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ContractId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContractId");
+
+                    b.ToTable("ContractMilestones");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Contract.ContractPayment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ContractId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PaymentReference")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContractId");
+
+                    b.ToTable("ContractPayments");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Procurement.Bid", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("BidAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("BidDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("BidderName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("EvaluationRemarks")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProcurementPlanId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProcurementPlanId");
+
+                    b.ToTable("Bids");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Procurement.ProcurementPlan", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("EstimatedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Method")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReferenceNo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProcurementPlans");
+                });
+
             modelBuilder.Entity("BLEPFinancialSystem.Models.Disbursement", b =>
                 {
                     b.Property<int>("Id")
@@ -510,6 +765,254 @@ namespace BLEPFinancialSystem.Migrations
                     b.ToTable("Projects");
                 });
 
+            modelBuilder.Entity("BLEPFinancialSystem.Models.ProjectManagement.SubProjectManagement.SubProject", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("ApprovedBudget")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SubProjects");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.ProjectManagement.SubProjectManagement.SubProjectComponent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Budget")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("SubProjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SubProjectId");
+
+                    b.ToTable("SubProjectComponents");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.Safeguards.EnvironmentalSafeguard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AssessmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("AssessmentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Findings")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MitigationMeasures")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EnvironmentalSafeguards");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.Safeguards.SocialSafeguard", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AssessmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("AssessmentReport")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SocialSafeguards");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.SpecialAccount.SpecialAccount", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccountNumber")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<decimal>("CurrentBalance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("ReconciliationBalance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SpecialAccounts");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.SpecialAccount.SpecialAccountTransaction", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Reference")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SpecialAccountId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("TransactionDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpecialAccountId");
+
+                    b.ToTable("SpecialAccountTransactions");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal.SupportingDocument", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("DocumentType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("WithdrawalApplicationId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WithdrawalApplicationId");
+
+                    b.ToTable("SupportingDocuments");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal.WithdrawalApplication", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("AmountRequested")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("ApplicationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ApplicationNo")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Purpose")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WithdrawalApplications");
+                });
+
             modelBuilder.Entity("BLEPFinancialSystem.Models.BudgetCategory", b =>
                 {
                     b.HasOne("BLEPFinancialSystem.Models.Project", "Project")
@@ -546,6 +1049,61 @@ namespace BLEPFinancialSystem.Migrations
                     b.Navigation("Template");
                 });
 
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Budget.Budget", b =>
+                {
+                    b.HasOne("BLEPFinancialSystem.Models.Project", "Project")
+                        .WithMany()
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Budget.BudgetLineItem", b =>
+                {
+                    b.HasOne("BLEPFinancialSystem.Models.CoreFinancial.Budget.Budget", "Budget")
+                        .WithMany("LineItems")
+                        .HasForeignKey("BudgetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Budget");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Contract.ContractMilestone", b =>
+                {
+                    b.HasOne("BLEPFinancialSystem.Models.CoreFinancial.Contract.Contract", "Contract")
+                        .WithMany("Milestones")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contract");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Contract.ContractPayment", b =>
+                {
+                    b.HasOne("BLEPFinancialSystem.Models.CoreFinancial.Contract.Contract", "Contract")
+                        .WithMany("Payments")
+                        .HasForeignKey("ContractId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Contract");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Procurement.Bid", b =>
+                {
+                    b.HasOne("BLEPFinancialSystem.Models.CoreFinancial.Procurement.ProcurementPlan", "ProcurementPlan")
+                        .WithMany("Bids")
+                        .HasForeignKey("ProcurementPlanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ProcurementPlan");
+                });
+
             modelBuilder.Entity("BLEPFinancialSystem.Models.Disbursement", b =>
                 {
                     b.HasOne("BLEPFinancialSystem.Models.Project", "Project")
@@ -567,12 +1125,44 @@ namespace BLEPFinancialSystem.Migrations
 
                     b.HasOne("BLEPFinancialSystem.Models.Disbursement", "Disbursement")
                         .WithMany("Payments")
-                        .HasForeignKey("DisbursementId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("DisbursementId");
 
                     b.Navigation("Beneficiary");
 
                     b.Navigation("Disbursement");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.ProjectManagement.SubProjectManagement.SubProjectComponent", b =>
+                {
+                    b.HasOne("BLEPFinancialSystem.Models.ProjectManagement.SubProjectManagement.SubProject", "SubProject")
+                        .WithMany("Components")
+                        .HasForeignKey("SubProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubProject");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.SpecialAccount.SpecialAccountTransaction", b =>
+                {
+                    b.HasOne("BLEPFinancialSystem.Models.WBSpecificModules.SpecialAccount.SpecialAccount", "SpecialAccount")
+                        .WithMany("Transactions")
+                        .HasForeignKey("SpecialAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SpecialAccount");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal.SupportingDocument", b =>
+                {
+                    b.HasOne("BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal.WithdrawalApplication", "WithdrawalApplication")
+                        .WithMany("Documents")
+                        .HasForeignKey("WithdrawalApplicationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WithdrawalApplication");
                 });
 
             modelBuilder.Entity("BLEPFinancialSystem.Models.BankAccount", b =>
@@ -585,6 +1175,23 @@ namespace BLEPFinancialSystem.Migrations
                     b.Navigation("Payments");
                 });
 
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Budget.Budget", b =>
+                {
+                    b.Navigation("LineItems");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Contract.Contract", b =>
+                {
+                    b.Navigation("Milestones");
+
+                    b.Navigation("Payments");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.CoreFinancial.Procurement.ProcurementPlan", b =>
+                {
+                    b.Navigation("Bids");
+                });
+
             modelBuilder.Entity("BLEPFinancialSystem.Models.Disbursement", b =>
                 {
                     b.Navigation("Payments");
@@ -595,6 +1202,21 @@ namespace BLEPFinancialSystem.Migrations
                     b.Navigation("BudgetCategories");
 
                     b.Navigation("Disbursements");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.ProjectManagement.SubProjectManagement.SubProject", b =>
+                {
+                    b.Navigation("Components");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.SpecialAccount.SpecialAccount", b =>
+                {
+                    b.Navigation("Transactions");
+                });
+
+            modelBuilder.Entity("BLEPFinancialSystem.Models.WBSpecificModules.Withdrawal.WithdrawalApplication", b =>
+                {
+                    b.Navigation("Documents");
                 });
 #pragma warning restore 612, 618
         }

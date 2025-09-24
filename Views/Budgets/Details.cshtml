@@ -1,0 +1,60 @@
+﻿@model BLEPFinancialSystem.Models.CoreFinancial.Budget.Budget
+
+@{
+    ViewData["Title"] = "Budget Details";
+}
+
+<h1>Budget Details</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Budget Information</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Project:</dt>
+                    <dd class="col-sm-8">@Model.Project?.Name</dd>
+
+                    <dt class="col-sm-4">Fiscal Year:</dt>
+                    <dd class="col-sm-8">@Model.FiscalYear</dd>
+
+                    <dt class="col-sm-4">Total Amount:</dt>
+                    <dd class="col-sm-8">@Model.TotalAmount.ToString("C")</dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge @GetStatusBadge(Model.Status)">@Model.Status</span>
+                    </dd>
+
+                    <dt class="col-sm-4">Created Date:</dt>
+                    <dd class="col-sm-8">@Model.CreatedDate.ToString("f")</dd>
+
+                    <dt class="col-sm-4">Created By:</dt>
+                    <dd class="col-sm-8">@Model.CreatedBy</dd>
+                </dl>
+
+                <div class="mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadge(BudgetStatus status)
+    {
+        return status switch
+        {
+            BudgetStatus.Draft => "badge-secondary",
+            BudgetStatus.Submitted => "badge-info",
+            BudgetStatus.Approved => "badge-success",
+            BudgetStatus.Revised => "badge-warning",
+            BudgetStatus.Closed => "badge-dark",
+            _ => "badge-secondary"
+        };
+    }
+}

@@ -1,0 +1,98 @@
+﻿@model BLEPFinancialSystem.Models.ProjectManagement.SubProjectManagement.SubProject
+
+@{
+    ViewData["Title"] = "Sub-Project Details";
+}
+
+<h1>Sub-Project Details</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Sub-Project Information</h5>
+            </div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-4">Code:</dt>
+                    <dd class="col-sm-8">@Model.Code</dd>
+
+                    <dt class="col-sm-4">Title:</dt>
+                    <dd class="col-sm-8">@Model.Title</dd>
+
+                    <dt class="col-sm-4">Location:</dt>
+                    <dd class="col-sm-8">@Model.Location</dd>
+
+                    <dt class="col-sm-4">Approved Budget:</dt>
+                    <dd class="col-sm-8">@Model.ApprovedBudget.ToString("C")</dd>
+
+                    <dt class="col-sm-4">Status:</dt>
+                    <dd class="col-sm-8">
+                        <span class="badge @GetStatusBadge(Model.Status)">@Model.Status</span>
+                    </dd>
+
+                    <dt class="col-sm-4">Created Date:</dt>
+                    <dd class="col-sm-8">@Model.CreatedDate.ToString("f")</dd>
+                </dl>
+
+                <div class="mt-4">
+                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Components Section -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title">Sub-Project Components</h5>
+            </div>
+            <div class="card-body">
+                @if (Model.Components.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Budget</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var component in Model.Components)
+                                {
+                                    <tr>
+                                        <td>@component.Name</td>
+                                        <td>@component.Description</td>
+                                        <td>@component.Budget.ToString("C")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">No components defined for this sub-project.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetStatusBadge(SubProjectStatus status)
+    {
+        return status switch
+        {
+            SubProjectStatus.Proposed => "badge-secondary",
+            SubProjectStatus.Approved => "badge-success",
+            SubProjectStatus.Implementation => "badge-primary",
+            SubProjectStatus.Completed => "badge-success",
+            SubProjectStatus.Suspended => "badge-warning",
+            SubProjectStatus.Terminated => "badge-danger",
+            _ => "badge-secondary"
+        };
+    }
+}    
